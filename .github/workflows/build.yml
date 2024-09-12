@@ -9,18 +9,20 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: sonarsource/sonarqube-scan-action@master
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Start SonarQube
+        run: |
+          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
+
+      - name: Wait for SonarQube to be up
+        run: |
+          until curl -s http://localhost:9000; do echo Waiting for SonarQube...; sleep 5; done
+
+      - name: SonarQube scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: http://localhost:9000
+        uses: sonarsource/sonarqube-scan-action@master
