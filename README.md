@@ -1,3 +1,3 @@
-- This a Sonarqube configuration in GitAction for analyzing code quality, identifying bugs, security vulnerabilities, and code smells.
+- This a Sonarqube configuration in GitAction for analyzing code quality, identifying bugs, security vulnerabilities, and code smells for a sample angular node app.
 - Setup sonarqube on ec2 and connect it to the git repo to send the result of gitaction to.
 - the steup of sonarqupe is done by a docker-compose.
