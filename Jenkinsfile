@@ -3,8 +3,8 @@ node {
     checkout scm
   }
   stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarScanner';  // Replace 'SonarScanner' with the actual tool name in Jenkins config
-    withSonarQubeEnv('SonarQubeServer') {  // 'SonarQubeServer' is the name you configured in Jenkins
+    def scannerHome = tool 'SonarQube Scanner';  // Replace 'SonarScanner' with the actual tool name in Jenkins config
+    withSonarQubeEnv('jenkins-sonar') {  // 'SonarQubeServer' is the name you configured in Jenkins
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
